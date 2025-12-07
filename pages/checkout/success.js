@@ -1,0 +1,1 @@
+export default function Success(){ return <div style={{padding:20}}><h1>Payment Complete</h1></div> }

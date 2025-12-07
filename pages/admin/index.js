@@ -15,13 +15,13 @@ export default function Admin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState(null);   // null = logged out
+  const [token, setToken] = useState(null); // null = logged out
   const [editingId, setEditingId] = useState(null);
 
   const [q, setQ] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
 
-  // Load products ONLY when token is available (after login)
+  // Load products when token is available (after login)
   useEffect(() => {
     if (token) {
       loadProducts();
@@ -37,7 +37,6 @@ export default function Admin() {
           categoryFilter
         )}`
       );
-
       const payload = res.data;
       const list = Array.isArray(payload) ? payload : payload.data || [];
       setProducts(list);
@@ -181,9 +180,7 @@ export default function Admin() {
           </div>
 
           <div className="admin-status">
-            <span
-              className={`status-dot ${token ? 'online' : 'offline'}`}
-            ></span>
+            <span className={`status-dot ${token ? 'online' : 'offline'}`} />
             <span>{token ? 'Logged in' : 'Logged out'}</span>
           </div>
         </header>
@@ -200,7 +197,6 @@ export default function Admin() {
             <label className="field-label">Email</label>
             <input
               className="field-input"
-              placeholder=""
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -208,7 +204,6 @@ export default function Admin() {
             <label className="field-label">Password</label>
             <input
               className="field-input"
-              placeholder=""
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -231,7 +226,7 @@ export default function Admin() {
             )}
           </section>
 
-          {/* CREATE / EDIT CARD – only when logged in */}
+          {/* CREATE / EDIT CARD */}
           {token && (
             <section className="admin-card">
               <h2>{editingId ? 'Edit product' : 'Create product'}</h2>
@@ -337,7 +332,7 @@ export default function Admin() {
           )}
         </div>
 
-        {/* PRODUCTS LIST – only when logged in */}
+        {/* PRODUCTS LIST */}
         {token && (
           <section className="admin-card products-card">
             <div className="products-header">
@@ -367,13 +362,14 @@ export default function Admin() {
               </div>
             </div>
 
-            <div className="products-grid">
+            <div className="product-grid">
               {products.map((p) => (
                 <div className="product-card" key={p.id}>
                   <div className="product-image-wrap">
                     <img
                       src={p.images?.[0] || '/placeholder.png'}
                       alt={p.title}
+                      loading="lazy"
                     />
                   </div>
 
